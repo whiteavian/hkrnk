@@ -36,6 +36,15 @@ m4 = \
         [17, 18, 19, 20],
     ]
 
+m5 = \
+    [
+        [1, 2, 3, 4],
+        [7, 8, 9, 10],
+        [13, 14, 15, 16],
+        [19, 20, 21, 22],
+        [25, 26, 27, 28],
+    ]
+
 def pprint_matrix(mat):
     for row in mat:
         print row
@@ -49,3 +58,8 @@ for m in (m0, m1, m2, m3, m4):
 pprint_matrix(m0)
 pprint_matrix(rotate_matrix_n_times(m0, 2, 2, 2))
 
+print "M5"
+print "ORIGINAL"
+pprint_matrix(m5)
+print "NEW MATRIX"
+pprint_matrix(rotate_matrix_n_times(m5, 5, 4, 7))
