@@ -1,28 +1,33 @@
 def rotate_matrix_n_times(mat, m, n, n_times):
     """Rotate each ring of the matrix counterclockwise n_times."""
-    while n_times > 0:
-        mat = rotate_matrix(mat, m, n)
-        n_times -= 1
+    # If we're rotating more than the size of the outer ring, there's no need to go around
+    # more than once.
+    for indent in xrange(min(m, n) / 2):
+        mod = (2 * (n + m - 4) - (4 * indent))
+        local_n_times = n_times % mod if mod > n_times else n_times
+
+        while local_n_times > 0:
+            local_n_times -= 1
+            mat = rotate_matrix_indent(mat, m, n, indent)
 
     return mat
 
-def rotate_matrix(mat, m, n):
+def rotate_matrix_indent(mat, m, n, indent):
     """Given a matrix and dimensions, rotate counterclockwise each ring."""
-    for indent in xrange(min(m, n) / 2):
-        # Store the first element so it isn't lost during overwriting.
-        first = mat[indent][indent]
+    # Store the first element so it isn't lost during overwriting.
+    first = mat[indent][indent]
 
-        i, j = get_next_indices(indent, indent, m, n, indent)
-        mat[indent][indent] = mat[j][i]
+    i, j = get_next_indices(indent, indent, m, n, indent)
+    mat[indent][indent] = mat[j][i]
 
-        # Set each index to the successor value.
-        while not (i == indent and j == indent):
-            ip1, jp1 = get_next_indices(i, j, m, n, indent)
-            mat[j][i] = mat[jp1][ip1]
-            i, j = ip1, jp1
+    # Set each index to the successor value.
+    while not (i == indent and j == indent):
+        ip1, jp1 = get_next_indices(i, j, m, n, indent)
+        mat[j][i] = mat[jp1][ip1]
+        i, j = ip1, jp1
 
-        # Set the final spot to the first.
-        mat[indent + 1][indent] = first
+    # Set the final spot to the first.
+    mat[indent + 1][indent] = first
 
     return mat
 
