@@ -3,10 +3,11 @@ def rotate_matrix_n_times(mat, m, n, times):
     # If we're rotating more than the size of the outer ring, there's no need to go around
     # more than once.
     new_matrix = [[None for i in xrange(n)] for j in xrange(m)]
-    for indent in xrange(min(m, n) / 2 - 1):
-        mod = (2 * (n + m - 2) - (4 * indent))
-        local_times = times % mod if mod < times else times
 
+    mod = 2 * (n + m - 2)
+    local_times = times % mod if mod < times else times
+
+    for indent in xrange(min(m, n) / 2):
         i_fill, j_fill = indent, indent
         i, j = get_next_indices(i_fill, j_fill, m, n, indent, local_times)
 
