@@ -3,9 +3,9 @@ def rotate_matrix_n_times(mat, m, n, times):
     # If we're rotating more than the size of the outer ring, there's no need to go around
     # more than once.
     new_matrix = [[None for i in xrange(n)] for j in xrange(m)]
-    for indent in xrange(min(m, n) / 2):
-        mod = (2 * (n + m - 4) - (4 * indent))
-        local_times = times % mod if mod > times else times
+    for indent in xrange(min(m, n) / 2 - 1):
+        mod = (2 * (n + m - 2) - (4 * indent))
+        local_times = times % mod if mod < times else times
 
         i_fill, j_fill = indent, indent
         i, j = get_next_indices(i_fill, j_fill, m, n, indent, local_times)
@@ -30,19 +30,19 @@ def get_next_indices(i, j, m, n, indent, times):
     while times > 0:
         if (i < n - indent - 1) and j == indent:
             inc = n - indent - i - 1 if i + times >= n - indent else times
-            i, j = i + inc, j
+            i = i + inc
         # We are on the last column and want to get the element beneath the current.
         elif (j < m - indent - 1) and i == (n - indent - 1):
             inc = m - indent - j - 1 if j + times >= m - indent else times
-            i, j = i, j + inc
+            j = j + inc
         # We are on the last row and want to element to the left of the current.
         elif (i > indent) and j == (m - indent - 1):
             inc = i - indent if i - times < indent else times
-            i, j = i - inc, j
+            i = i - inc
         # We are on the first column and want the element above the current.
         elif (j > indent) and i == indent:
             inc = j - indent if j - times < indent else times
-            i, j = i, j - inc
+            j = j - inc
         else:
             print "Don't you wish we were working in a language that had case " \
                   "exhaustivity checking so we could be extra sure we don't need " \

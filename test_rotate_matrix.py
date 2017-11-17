@@ -81,3 +81,15 @@ print "ORIGINAL"
 pprint_matrix(m6)
 print "NEW MATRIX"
 pprint_matrix(rotate_matrix_n_times(m6, 8, 9, 301))
+
+
+import random, math
+rand_mat = [[random.randint(0, math.pow(10, 8)) for e in range(200)] for i in range(299)]
+
+i1 = 972035384
+i2 = 254171615
+i3 = 399475085
+
+pprint_matrix(rotate_matrix_n_times(rand_mat, 299, 200, i1))
+pprint_matrix(rotate_matrix_n_times(rand_mat, 299, 200, i2))
+pprint_matrix(rotate_matrix_n_times(rand_mat, 299, 200, i3))
