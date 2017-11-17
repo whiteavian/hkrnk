@@ -29,11 +29,11 @@ def get_next_indices(i, j, m, n, indent, times):
     # We are on the first row and want the element to the right of the current.
     while times > 0:
         if (i < n - indent - 1) and j == indent:
-            inc = n - i if i + times >= n else times
+            inc = n - indent - i - 1 if i + times >= n - indent else times
             i, j = i + inc, j
         # We are on the last column and want to get the element beneath the current.
         elif (j < m - indent - 1) and i == (n - indent - 1):
-            inc = m - j - 1 if j + times >= m else times
+            inc = m - indent - j - 1 if j + times >= m - indent else times
             i, j = i, j + inc
         # We are on the last row and want to element to the left of the current.
         elif (i > indent) and j == (m - indent - 1):
