@@ -74,9 +74,7 @@ print "M5"
 print "ORIGINAL"
 pprint_matrix(m5)
 print "NEW MATRIX"
-assert rotate_matrix_n_times(m5, 5, 4, 1) == rotate_matrix_n_times(m5, 5, 4, 15)
 pprint_matrix(rotate_matrix_n_times(m5, 5, 4, 15))
-assert rotate_matrix_n_times(m5, 5, 4, 300) == rotate_matrix_n_times(m5, 5, 4, 6)
 
 print "M6"
 print "ORIGINAL"

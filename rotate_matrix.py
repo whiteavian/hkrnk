@@ -2,15 +2,27 @@ def rotate_matrix_n_times(mat, m, n, n_times):
     """Rotate each ring of the matrix counterclockwise n_times."""
     # If we're rotating more than the size of the outer ring, there's no need to go around
     # more than once.
+    new_matrix = [[None] * n] * m
     for indent in xrange(min(m, n) / 2):
         mod = (2 * (n + m - 4) - (4 * indent))
         local_n_times = n_times % mod if mod > n_times else n_times
 
+        i_fill, j_fill = indent, indent
+        i, j = i_fill, j_fill
         while local_n_times > 0:
             local_n_times -= 1
-            mat = rotate_matrix_indent(mat, m, n, indent)
+            i, j = get_next_indices(i, j, m, n, indent)
 
-    return mat
+        new_matrix[j_fill][i_fill] = mat[j][i]
+        i_fill, j_fill = get_next_indices(i_fill, j_fill, m, n, indent)
+
+        while not (i_fill == indent and j_fill == indent):
+            i, j = get_next_indices(i, j, m, n, indent)
+            new_matrix[j_fill][i_fill] = mat[j][i]
+            i_fill, j_fill = get_next_indices(i_fill, j_fill, m, n, indent)
+
+
+    return new_matrix
 
 def rotate_matrix_indent(mat, m, n, indent):
     """Given a matrix and dimensions, rotate counterclockwise each ring."""
