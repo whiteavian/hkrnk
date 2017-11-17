@@ -4,10 +4,10 @@ def rotate_matrix_n_times(mat, m, n, times):
     # more than once.
     new_matrix = [[None for i in xrange(n)] for j in xrange(m)]
 
-    mod = 2 * (n + m - 2)
-    local_times = times % mod if mod < times else times
-
     for indent in xrange(min(m, n) / 2):
+        mod = 2 * (n + m - 2) - 8 * indent
+        local_times = times % mod if mod < times else times
+
         i_fill, j_fill = indent, indent
         i, j = get_next_indices(i_fill, j_fill, m, n, indent, local_times)
 
