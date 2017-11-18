@@ -18,6 +18,26 @@ def insert_sort(ar, n):
         ar = insert_sort_single(ar[:i + 1], i + 1) + ar[i + 1:]
         print(" ".join(map(str, ar)))
 
+def quicksort(ar):
+    piv = ar[0]
+    left = []
+    right = []
+
+    if len(ar) == 1:
+        return ar
+
+    for el in ar[1:]:
+        if el <= piv:
+            left.append(el)
+        elif el > piv:
+            right.append(el)
+    if len(left) < len(right):
+        left.append(piv)
+    else:
+        right.append(piv)
+
+    return quicksort(left) + quicksort(right)
+
 print("NEW")
 insert_sort([1, 2, 3, 4, 5, 3], 6)
 print("NEW")
@@ -34,3 +54,5 @@ print("NEW")
 insert_sort([3], 1)
 print("NEW")
 insert_sort([4, 3, 2, 1, 8], 5)
+
+print(quicksort([4, 3, 3, 2, 1, 8]))
