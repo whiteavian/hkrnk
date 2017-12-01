@@ -113,3 +113,30 @@ class BinaryTree:
 
         return self
 
+    def decode_huff(self, s):
+        out = ""
+        while len(s) > 0:
+            letter, s = self.huff_helper(s)
+            out += letter
+
+        print out
+
+    def huff_helper(self, s):
+        if not self.left and not self.right:
+            return self.data, s
+        if s[0] == '0':
+            next_node = self.left
+        elif s[0] == '1':
+            next_node = self.right
+
+        return next_node.huff_helper(s[1:])
+
+    def lca(self, v1, v2):
+        """Return the least common ancestor of two numbers."""
+        if self.right and v1 > self.data and v2 > self.data:
+            return self.right.lca(v1, v2)
+        elif self.left and v1 < self.data and v2 < self.data:
+            return self.left.lca(v1, v2)
+        else:
+            return self
+
