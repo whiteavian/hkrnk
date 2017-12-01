@@ -1,5 +1,5 @@
 class BinaryTree:
-    def __init__(self, data, left, right):
+    def __init__(self, data, left=None, right=None):
         self.data = data
         self.left = left
         self.right = right
@@ -45,7 +45,7 @@ class BinaryTree:
             yield self.data
 
     def traverse_depth(self, depth):
-        """Traverse tree in root, left, right ordering."""
+        """Traverse tree yielding depth."""
         if self.data is not None:
             yield depth
         if self.left and self.left.data is not None:
@@ -54,3 +54,62 @@ class BinaryTree:
         if self.right and self.right.data is not None:
             for n in self.right.traverse_depth(depth + 1):
                 yield n
+
+    def traverse_width_height(self, width, height):
+        """Traverse tree yielding the node, and each width."""
+        if self.left and self.left.data is not None:
+            for p in self.left.traverse_width_height(width - 1, height + 1):
+                yield p
+        if self.data is not None and abs(width) == height:
+            yield self.data
+        if self.right and self.right.data is not None:
+            for p in self.right.traverse_width_height(width + 1, height + 1):
+                yield p
+
+    def top_view(self):
+        """Return the nodes in order from left to right if viewed from above."""
+        node_widths = [nw for nw in self.traverse_width_height(0, 0)]
+        print " ".join(map(str, node_widths))
+
+    def breadth_first_traverse(self):
+        """Traverse the tree breadth first."""
+        if self.data is not None:
+            yield self.data
+
+        children = self.children()
+
+        while children != []:
+            next_children = []
+
+            for child in children:
+                next_children.extend(child.children())
+                yield child.data
+
+            children = next_children
+
+    def children(self):
+        """Return a list of both children."""
+        children = []
+
+        if self.left:
+            children.append(self.left)
+        if self.right:
+            children.append(self.right)
+
+        return children
+
+    def insert(self, val):
+        """Insert a value in the appropriate location in the tree."""
+        if self.data and val >= self.data:
+            if self.right:
+                self.right.insert(val)
+            else:
+                self.right = BinaryTree(data=val)
+        else:
+            if self.left:
+                self.left.insert(val)
+            else:
+                self.left = BinaryTree(data=val)
+
+        return self
+
