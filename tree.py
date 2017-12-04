@@ -140,3 +140,10 @@ class BinaryTree:
         else:
             return self
 
+
+class AVLTree(BinaryTree):
+    """An AVLTree is a self balancing binary search tree."""
+
+    def insert(self, val):
+        super(AVLTree, self).insert(val)
+
