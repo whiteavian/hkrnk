@@ -79,22 +79,35 @@ def largest_rectangle(h):
 
     return max_rect
 
+
 def poisonous_plants(p):
+    stacks = [[p[0]]]
     days = 0
 
-    new_p = [p[0]] if len(p) > 0 else []
-
-    while True:
-        for i in range(1,len(p)):
-            if p[i-1] >= p[i]:
-                new_p.append(p[i])
-        if new_p != p:
-            days += 1
-            p = new_p
-            new_p = [p[0]]
+    for i in range(1, len(p)):
+        if p[i] > p[i-1]:
+            stacks.append([p[i]])
         else:
-            return days
+            stacks[-1].append(p[i])
 
-foo = poisonous_plants([1, 2, 3, 4, 5])
-print foo
+    while len(stacks) > 1:
+        days += 1
+        for s in stacks[1:]:
+            if len(s) > 0:
+                s.pop(0)
 
+        # Remove the empty stacks.
+        i = len(stacks) - 1
+        while i > 0:
+            if len(stacks[i]) == 0:
+                stacks.pop(i)
+            i -= 1
+
+        # Merge consecutive stacks
+        i = len(stacks) - 1
+        while i > 0:
+            if stacks[i-1][-1] >= stacks[i][0]:
+                stacks[i-1].extend(stacks.pop(i))
+            i -= 1
+
+    return days
