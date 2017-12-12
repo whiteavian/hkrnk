@@ -49,7 +49,7 @@ def shift(letter, n, lower, upper):
 
     if letter in range(lower, upper):
         new_letter = letter + n
-        if new_letter > upper:
+        if new_letter >= upper:
             new_letter = (new_letter % upper) + lower
 
     return new_letter
