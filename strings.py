@@ -54,3 +54,15 @@ def shift(letter, n, lower, upper):
 
     return new_letter
 
+def sos(s):
+    sos = "SOS"
+    i = 0
+    diffs = 0
+
+    for l in s:
+        if l != sos[i]:
+            diffs += 1
+        i += 1
+        i = i % 3
+
+    return diffs
