@@ -66,3 +66,38 @@ def sos(s):
         i = i % 3
 
     return diffs
+
+
+def pangrams(s):
+    """Return if the string contains each letter of the alphabet at least once, case insensitive."""
+    letters = set(s.lower())
+
+    if " " in letters and len(letters) == 27:
+        return "pangram"
+    elif " " not in letters and len(letters) == 26:
+        return "pangram"
+    else:
+        return "not pangram"
+
+
+def substring_in_strings(strings, substring):
+    """Given a list of strings, return if the substring can be found in order but not consecutively in each.
+
+    For example, if a string is hello, it contains the substrings helo and hlo, but not the substring hle.
+    """
+    len_substring = len(substring)
+    out = []
+
+    for string in strings:
+        i = 0
+
+        for l in string:
+            if l == substring[i]:
+                i += 1
+            if i == len_substring:
+                out.append(True)
+                break
+
+        out.append(False)
+
+    return out
