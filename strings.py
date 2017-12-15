@@ -101,3 +101,20 @@ def substring_in_strings(strings, substring):
         out.append(False)
 
     return out
+
+def contiguous_substring_weights(string):
+    contig_substr_weights = set()
+
+    previous = None
+
+    for letter in string:
+        if letter == previous:
+            weight += ord(letter) - 96
+        else:
+            previous = letter
+            weight = ord(letter) - 96
+
+        contig_substr_weights.add(weight)
+
+    return contig_substr_weights
+
