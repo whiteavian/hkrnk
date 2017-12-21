@@ -1,6 +1,5 @@
 def add(trie, word):
     """Add a word to a simple dict trie."""
-    # TODO no need to recur when letter is None, remove that step
     if len(word) > 0:
         letter = word[0]
 
@@ -8,9 +7,11 @@ def add(trie, word):
             if letter in trie:
                 trie[letter] = add(trie[letter], word[1:])
             else:
-                trie[letter] = add(None, word[1:])
+                trie[letter] = add({}, word[1:])
         else:
-            trie = {letter: add(None, word[1:])}
+            trie = {letter: add({}, word[1:])}
+    else:
+        trie[word] = None
 
     return trie
 
@@ -26,7 +27,7 @@ def find(trie, word):
             if trie[letter] is None:
                 end_nodes += 1
             else:
-                end_nodes += find(trie[letter], None)
+                end_nodes += find(trie[letter], '')
 
         return end_nodes
 
