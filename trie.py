@@ -1,7 +1,7 @@
 class Trie:
-    def __init__(self, data={}, parent=None):
+    def __init__(self, parent=None):
         # Keys are letters, values are Tries.
-        self.data = data
+        self.data = {}
         self.parent = parent
 
         self.sub_levels = 0
@@ -11,13 +11,16 @@ class Trie:
         return "Trie ({!r})".format(self.data)
 
     def add(self, word):
-        """Add a word to a simple dict self.data."""
+        """Add a word to the trie.
+
+        If the word is already in the trie, do nothing. If it is not, add the word and increment
+        all of the variable counts."""
         i = 0
         while i < len(word):
             letter = word[i]
 
             if letter not in self.cursor.data:
-                self.cursor.data[letter] = Trie(data={}, parent=self.cursor)
+                self.cursor.data[letter] = Trie(parent=self.cursor)
 
             self.cursor = self.cursor.data[letter]
             i += 1
@@ -37,23 +40,24 @@ class Trie:
             self.cursor.sub_levels += 1
 
     def find(self, word):
-        """Return the number of words found in the self.data (dict) that start with the given word."""
-        if len(word) > 0 and word[0] in self.data:
-            return self.data[word[0]].find(word[1:])
+        """Return the number of words found in the trie that start with the given word."""
+        # Make sure cursor is reset before starting.
+        i = 0
+        self.cursor = self
 
-        elif len(word) == 0:
-            end_nodes = 0
-
-            for letter in self.data:
-                if self.data[letter] is None:
-                    end_nodes += 1
-                else:
-                    end_nodes += self.data[letter].find('')
-
-            return end_nodes
-
-        else:
+        # An empty word is not in the trie.
+        if len(word) == 0:
             return 0
+
+        while i < len(word):
+            letter = word[i]
+            if letter in self.cursor.data:
+                self.cursor = self.cursor.data[letter]
+                i += 1
+            else:
+                return 0
+
+        return self.cursor.sub_levels
 
     def remove(self, word, remove_partial=False):
         pass
