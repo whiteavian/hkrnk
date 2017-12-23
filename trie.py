@@ -16,6 +16,8 @@ class Trie:
         If the word is already in the trie, do nothing. If it is not, add the word and increment
         all of the variable counts."""
         i = 0
+        self.cursor = self
+
         while i < len(word):
             letter = word[i]
 
@@ -26,6 +28,8 @@ class Trie:
             i += 1
 
         self.increment_sub_levels()
+
+        return self.cursor
 
     def increment_sub_levels(self):
         # Should we put the word as the key at the last spot?
