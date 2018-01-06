@@ -140,6 +140,29 @@ class BinaryTree:
         else:
             return self
 
+    def check_bst(self, lower=None, upper=None):
+        if lower and lower >= self.data:
+            return False
+        if upper and upper <= self.data:
+            return False
+
+        left_balanced = True
+        right_balanced = True
+
+        if self.left:
+            if self.left.data < self.data:
+                left_balanced = self.left.check_bst(lower, self.data)
+            else:
+                return False
+
+        if self.right:
+            if self.data < self.right.data:
+                right_balanced = self.right.check_bst(self.data, upper)
+            else:
+                return False
+
+        return left_balanced and right_balanced
+
 
 class AVLTree(BinaryTree):
     """An AVLTree is a self balancing binary search tree."""
