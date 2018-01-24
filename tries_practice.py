@@ -1,45 +1,43 @@
 class Trie:
+    def __init__(self, parent=None):
+        self.items = {}
+        self.parent = parent
+        self.item_count = 0
 
-    def __init__(self, count=0, letter=None):
-        self.letters = {letter: Trie()} if letter else {}
-        self.count = count
-
-    def add(self, word):
-        cursor, remainder = self.find(word)
-
-        if remainder and remainder != '':
-            letter = remainder[0]
-            cursor.count += 1
-
-            next_letter = Trie(1, letter)
-            cursor.letters[letter] = next_letter
-
-            next_letter.add(remainder[1:])
-
-    def find(self, word):
+    def add(self, item):
         cursor = self
-        remainder = word
 
-        for i in range(len(word)):
-            letter = word[i]
-            if letter in cursor.letters:
-                cursor = cursor.letters[letter]
+        for l in item:
+            if l not in cursor.items:
+                cursor.items[l] = Trie(parent=cursor)
+
+            cursor = cursor.items[l]
+
+        if None not in cursor.items:
+            cursor.items[None] = None
+
+            while cursor.parent is not None:
+                cursor.item_count += 1
+                cursor = cursor.parent
+
+            cursor.item_count += 1
+
+    def find_partial(self, p):
+        cursor = self
+
+        for l in p:
+            if l in cursor.items:
+                cursor = cursor.items[l]
             else:
-                remainder = word[i:]
-                break
+                return 0
 
-        return cursor, remainder
+        return cursor.item_count
 
-foo = 1
-t = Trie()
-cursor, remainder = t.find('fo')
-t.add('foo')
-cursor, remainder = t.find('fo')
 
 def count_elmts(t):
     count = 0
 
-    for k, v in t:
+    for k, v in t.items():
         if k is None:
             count += 1
         else:
